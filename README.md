@@ -1,25 +1,28 @@
-<img align="right" width="320" src="./assets/commit-pet.svg" alt="커밋 활동에 따라 자라는 고양이 Mori" />
+<picture>
+  <source media="(max-width: 640px)" srcset="./assets/studio-mobile.svg">
+  <img width="100%" src="./assets/studio.svg" alt="최태현의 작은 작업실. 고양이 Mori와 함께 웹과 앱을 만듭니다.">
+</picture>
 
-# 최태현
+### 만드는 서비스
 
-웹과 앱을 만들고,  
-작은 불편을 제품으로 바꿉니다.
+<picture>
+  <source media="(max-width: 640px)" srcset="./assets/projects-mobile.svg">
+  <img width="100%" src="./assets/projects.svg" alt="Homeable 청약 자금 계산 앱과 GangwonCanvas 여행 일정 서비스.">
+</picture>
 
-TypeScript · React · NestJS · PostgreSQL
+[홈어블 Google Play](https://play.google.com/store/apps/details?id=com.teamhomeable.app) · [홈어블 웹사이트](https://homeable.co.kr/)
 
-<br clear="both" />
+<details>
+<summary><strong>고양이 상태와 3D 잔디 펼쳐보기</strong></summary>
 
-## 커밋이 쌓이는 작은 도시
+공개 활동을 기준으로 매일 갱신합니다. 비공개 활동 공개 설정은 변경하지 않았습니다.
 
-<img width="100%" src="./profile-3d-contrib/profile-night-green.svg" alt="실제 깃허브 활동으로 그린 3D 잔디 야경" />
+<img width="360" src="./assets/commit-pet.svg" alt="실제 공개 활동에 따른 고양이 Mori의 상태와 레벨.">
 
-## 만들고 있는 것
+<img width="100%" src="./profile-3d-contrib/profile-night-green.svg" alt="실제 공개 활동으로 생성한 3D 잔디.">
 
-**[Homeable](https://play.google.com/store/apps/details?id=com.teamhomeable.app)** · 청약 공고와 내 조건을 바탕으로 필요 자금을 계산합니다.  
-**GangwonCanvas** · 자연어로 여행 일정을 만들고 편집·공유하는 서비스를 개발합니다.
+그림 생성: [Commit Pet](https://github.com/yukurash/commit-pet) · [3D Contrib](https://github.com/yoshi389111/github-profile-3d-contrib)
 
-<sub>소스 코드는 비공개로 관리합니다.</sub>
+</details>
 
----
-
-<sub>매일 자동 갱신 · [3D Contrib](https://github.com/yoshi389111/github-profile-3d-contrib) · [Commit Pet](https://github.com/yukurash/commit-pet)</sub>
+<sub>프로젝트 소스 코드는 비공개로 관리합니다.</sub>
