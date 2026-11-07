@@ -1,0 +1,74 @@
+name: Update profile visuals
+
+on:
+  schedule:
+    - cron: '17 19 * * *' # 04:17 Asia/Seoul; scheduled runs may be delayed by GitHub
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/profile-visuals.yml'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: profile-visuals
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out profile
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+
+      - name: Generate 3D contribution city
+        uses: yoshi389111/github-profile-3d-contrib@e235d118909be71eb7edb05482a3de4e76156df3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          USERNAME: ${{ github.repository_owner }}
+
+      - name: Check out Commit Pet renderer
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          repository: yukurash/commit-pet
+          ref: fa9237298c252caad75b2f1fa9bb194675cc83ab
+          path: .profile-tools/commit-pet
+          persist-credentials: false
+
+      - name: Generate living cat from real contributions
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PROFILE_OWNER: ${{ github.repository_owner }}
+        run: |
+          node .profile-tools/commit-pet/src/generate.js \
+            --user "$PROFILE_OWNER" --species cat --name Mori \
+            --theme en --out assets/commit-pet.svg
+          node <<'NODE'
+          const fs = require('node:fs');
+          const file = 'assets/commit-pet.svg';
+          const svg = fs.readFileSync(file, 'utf8')
+            .replace(/[\p{Extended_Pictographic}\uFE0F\u200D]/gu, '')
+            .replace('★ Commit Pet', 'Commit Pet');
+          if (!svg.includes('<svg') || !svg.includes('contributions (1y)')) {
+            throw new Error('Invalid pet image');
+          }
+          fs.writeFileSync(file, svg);
+          NODE
+
+      - name: Save only profile artwork
+        run: |
+          test -s assets/commit-pet.svg
+          test -s profile-3d-contrib/profile-night-green.svg
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add assets/commit-pet.svg profile-3d-contrib/profile-night-green.svg
+          if git diff --cached --quiet; then
+            echo 'Profile artwork is already current.'
+          else
+            git commit -m 'chore: refresh cat and contribution city'
+            git pull --rebase origin main
+            git push origin HEAD:main
+          fi
